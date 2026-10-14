@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.authtoken.views import obtain_auth_token  # <-- Importamos la vista de tokens
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Enchufamos las URLs de nuestra app catalog bajo el prefijo 'api/'
     path('api/', include('catalog.urls')),
+    # Ruta para que Postman o cualquier cliente haga POST enviando username/password y reciba el token
+    path('api-token-auth/', obtain_auth_token),  # <-- Ruta para hacer login y obtener el token
 ]
