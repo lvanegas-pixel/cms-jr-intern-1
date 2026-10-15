@@ -183,6 +183,88 @@ Ejecuta el siguiente comando en el entorno virtual para crear un token asociado 
 # Paso 2.3: Crear las peticiones del Camino Feliz (CRUD)
 Vamos a crear dentro de tu colección las peticiones básicas para projects y assets.
 
-- A. Para Projects:
+**A. Para `Projects`:**
+1. Clica en los tres puntitos (`...`) al lado de tu colección **CMS Jr.** y selecciona **Add request**. Llámala `List Projects`.
+   - **Método:** `GET`
+   - **URL:** `{{base_url}}/api/projects/`
+   - **Cabeceras (*Headers*):** `Authorization: Token <tu_token>` (o configurado a nivel de colección).
+   - *Resultado esperado:* Devuelve la lista paginada de proyectos (`count`, `next`, `previous`, `results`).
 
-1. Clica en los tres puntitos (...) al lado de tu colección CMS Jr. y selecciona Add request. Llámala List Projects.
+2. Crea otra petición llamada `Create Project`:
+   - **Método:** `POST`
+   - **URL:** `{{base_url}}/api/projects/`
+   - **Body:** Selecciona `raw` -> `JSON` y envía los datos del nuevo proyecto:
+     ```json
+     {
+         "name": "Proyecto de Prueba"
+     }
+     ```
+   - *Resultado esperado:* Código `201 Created` con el JSON del proyecto creado (el campo `owner` se asigna automáticamente al usuario autenticado).
+
+3. Añade las peticiones restantes del ciclo CRUD de proyectos:
+   - `Get Project Detail` (`GET` a `{{base_url}}/api/projects/{id}/`)
+   - `Update Project` (`PATCH` a `{{base_url}}/api/projects/{id}/` enviando el nuevo nombre)
+   - `Delete Project` (`DELETE` a `{{base_url}}/api/projects/{id}/`)
+
+- 
+**B. Para `Assets`:**
+Crea peticiones equivalentes para la ruta de assets (`{{base_url}}/api/assets/`) para cubrir su ciclo completo:
+1. `List Assets` (`GET`)
+2. `Create Asset` (`POST` enviando `project`, `name`, `asset_type` como `MODEL_3D`, `IMAGE` o `VIDEO`, e `is_public`).
+3. `Get Asset Detail`, `Update Asset` y `Delete Asset`.
+
+---
+
+# Paso 2.4: Probar los "Caminos Infelices" (Control de Errores y Seguridad)
+
+Un desarrollo profesional no solo comprueba que el sistema funciona cuando todo va bien, sino que valida que **falla exactamente como marcan las reglas de negocio y seguridad**. Añadimos las siguientes peticiones de control de errores a la colección:
+
+1. **Prueba de la Regla 1 (Error 400 - Validación de Negocio):**
+   - **Nombre:** `Fail - Duplicate MODEL_3D`
+   - **Método / URL:** `POST` a `{{base_url}}/api/assets/`
+   - **Acción:** Intentar crear un segundo asset de tipo `MODEL_3D` en un proyecto que ya contiene uno.
+   - *Resultado esperado:* La API interrumpe la petición desde el Serializer y devuelve un código **`400 Bad Request`** informando de que el proyecto ya dispone de un modelo 3D.
+
+2. **Prueba de la Regla 3 (Error 403 - Anti-Cheat / Permisos):**
+   - **Nombre:** `Fail - Unauthorized Asset Creation`
+   - **Método / URL:** `POST` a `{{base_url}}/api/assets/`
+   - **Acción:** Autenticarse con el token de un usuario comercial (`comercial1`) e intentar crear o modificar un asset en un proyecto propiedad de otro usuario (`commercial2`).
+   - *Resultado esperado:* La clase de permisos `IsProjectOwnerOrAdmin` intercepta la acción y bloquea el acceso devolviendo un código **`403 Forbidden`** (o `404 Not Found` según la consulta del queryset).
+
+3. **Prueba sin Autenticación (Error 401 - Seguridad Global):**
+   - **Nombre:** `Fail - No Token`
+   - **Método / URL:** `GET` a `{{base_url}}/api/projects/`
+   - **Acción:** Eliminar o no proporcionar la cabecera `Authorization` en la petición.
+   - *Resultado esperado:* El sistema rechaza la conexión por defecto devolviendo un código **`401 Unauthorized`** (*"Authentication credentials were not provided"*).
+
+---
+
+# Paso 2.5: Exportar la Colección y Guardarla en el Repositorio
+
+Una vez validados todos los endpoints (tanto los caminos felices como los infelices):
+1. Haz clic en los tres puntitos (`...`) al lado del nombre de la colección **CMS Jr.** en Postman.
+2. Selecciona **Export** (formato recomendado Collection v2.1).
+3. Guarda el archivo `.json` resultante.
+4. En la raíz de tu repositorio local (`cms-jr-intern-1`), crea una carpeta llamada exactamente **`postman`**.
+5. Mueve el archivo `.json` dentro de dicha carpeta para que quede versionado junto al código fuente.
+
+=====================================  PROBLEMAS CON EL PR  =====================================================
+
+Mensaje de Luis:
+La autenticación con token está bien montada (endpoint para obtenerlo incluido), la paginación correcta y los filtros 
+bien pensados en los dos ViewSets. Y la descripción del PR es clara. 
+
+Antes de aprobarlo, quiero que revises una cosa del requirements.txt. Compará tu versión con la de main y fíjate:
+
+Tu Django pasó de 5.1.4 a 6.1.2 (y DRF de 3.15.2 a 3.18.3). ¿Fue a propósito? ¿Sabías que habías actualizado Django 
+a una versión mayor? Piensa qué implica cambiar la versión del framework sin quererlo en un proyecto de equipo.
+
+Aparecieron dependencias nuevas que tú no instalaste directamente: asgiref, sqlparse, iniconfig, pluggy, packaging. 
+¿Sabes qué son y por qué están ahí? ¿Cuál de todas las nuevas es la que de verdad necesitabas para esta fase?
+
+Relee el comentario que venía en el requirements.txt original (el que borraste). Decía algo sobre pip freeze. 
+¿Qué crees que pasó aquí?
+
+Cuando tengas claro el porqué, deja el requirements.txt solo con lo que el proyecto necesita de verdad y actualiza 
+el PR. Esto no es un capricho: un requirements limpio es lo que hace que el entorno de otra persona (o el servidor) sea 
+reproducible.
