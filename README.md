@@ -282,3 +282,24 @@ Relee el comentario que venía en el requirements.txt original (el que borraste)
 Cuando tengas claro el porqué, deja el requirements.txt solo con lo que el proyecto necesita de verdad y actualiza 
 el PR. Esto no es un capricho: un requirements limpio es lo que hace que el entorno de otra persona (o el servidor) sea 
 reproducible.
+
+---
+
+### 💡 Resolución y Feedback del PR (requirements.txt)
+
+**¿Qué pasó?**
+Cometí el error de ejecutar un `pip freeze > requirements.txt`. No pensé en que eso podría ocasionar conflictos con el
+equipo. no había leido la advertencia que habían en el requirements.txt sobre exactamente no usar ese comando. Ocasionó:
+1. **Actualización involuntaria:** Django saltó de la versión base `5.1.4` a la `6.1.2`, y DRF se actualizó a la `3.18.3`.
+2. **Inyección de subdependencias:** Se colaron paquetes internos del ecosistema y de testing que no instalamos 
+     directamente (`asgiref`, `sqlparse`, `iniconfig`, `pluggy`, `packaging`).
+
+**¿Cómo se ha solucionado?**
+He revertido el archivo a su estado original para mantener la versión de Django `5.1.4` intacta y reproducible para 
+todo el equipo, añadiendo de forma limpia y manual únicamente la dependencia que necesitábamos para esta fase:
+
+- `django-filter>=23.0`
+Esta dependencia nos permite integrar de forma nativa la filtración avanzada de consultas en nuestros ViewSets de 
+Django REST Framework. Gracias a ella, los clientes pueden filtrar los listados de la API por campos específicos 
+(como el `owner` de un proyecto o el `asset_type` de un archivo) y realizar búsquedas personalizadas mediante 
+parámetros en la URL sin necesidad de escribir lógica de filtrado manual en Python.
