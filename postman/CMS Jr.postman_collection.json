@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "5728b2b7-12ab-41d2-a224-7b2f94478e57",
+		"name": "CMS Jr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "58945052",
+		"_collection_link": "https://jrodoreda-5621515.postman.co/workspace/Joan-Rodoreda's-Workspace~99b4649f-d9b0-4c1d-8d55-8efa0926ec31/collection/58945052-5728b2b7-12ab-41d2-a224-7b2f94478e57?action=share&source=collection_link&creator=58945052"
+	},
+	"item": [
+		{
+			"name": "Projects",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Proyecto de Prueba\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/projects/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"projects",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assets",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 3,\n    \"name\": \"Modelo 3D Principal\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": ""
+		}
+	]
+}

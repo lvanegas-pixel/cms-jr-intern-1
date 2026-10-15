@@ -149,36 +149,46 @@ Una colección en Postman es simplemente una carpeta donde guardas todas las pet
 
 - Abre la aplicación Postman en tu ordenador.
 - En la barra lateral izquierda, haz clic en el botón New (o en el icono +) y selecciona Collection.
-- Ponle de nombre: CMS Jr.
-- Vamos a crear una variable de entorno para no tener que escribir [http://127.0.0.1:8000](http://127.0.0.1:8000) en cada petición:
-  - Clica sobre tu colección CMS Jr. en la barra lateral. 
-  - Ve a la pestaña Variables (en la parte superior derecha de la ventana central). 
-  - En la columna VARIABLE, escribe: base_url 
-  - En la columna INITIAL VALUE y CURRENT VALUE, escribe: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-  - Pincha en Save (Guardar). 
-  - ¿Para qué sirve esto? A partir de ahora, en cualquier petición podrás escribir {{base_url}}/api/projects/ 
-    y Postman cambiará automáticamente {{base_url}} por tu servidor local.
+- Ponle de nombre: `CMS Jr.`
+- Vamos a crear una variable de entorno para no tener que escribir `http://127.0.0.1:8000` en cada petición:
+  - Clica sobre tu colección `CMS Jr.` en la barra lateral.
+  - Ve a la pestaña **Variables** (en la parte superior derecha de la ventana central).
+  - En la columna VARIABLE, escribe: `base_url`
+  - En la columna INITIAL VALUE y CURRENT VALUE, escribe: `http://127.0.0.1:8000`
+  - Pincha en **Save** (Guardar).
+  - *¿Para qué sirve esto?* A partir de ahora, en cualquier petición podrás escribir `{{base_url}}/api/projects/` y 
+      Postman cambiará automáticamente `{{base_url}}` por tu servidor local.
 
-# Paso 2.2.: Generar y configurar tu Token de Autenticación
-Como la API exige estar autenticado (`IsAuthenticated`), necesitamos pasar el token del usuario en las peticiones
-mediante cabeceras HTTP.
+# Paso 2.2: Generar y configurar tu Token de Autenticación (Guía Paso a Paso)
 
-- 
-**Generar un token por terminal:**
-Tenemos que crear un usuario en el Postman.
-Ejecuta el siguiente comando en el entorno virtual para crear un token asociado a un usuario (por ejemplo, a un comercial o administrador):
-    `python manage.py drf_create_token <nombre_usuario>`
+Como la API exige estar autenticado (`IsAuthenticated`), necesitamos pasar el token del usuario en las peticiones 
+mediante cabeceras HTTP. Sigue estos pasos exactos para configurarlo:
 
-1. Abre tu terminal (con el entorno virtual activo y el servidor de Django corriendo en otra pestaña).
-2. Ejecuta este comando para crear un token a un usuario que ya tengas creado (por ejemplo, tu superusuario o un comercial):
-   - Hemos tenido que crear un usuario comercial `comercial1`
-     `python manage.py drf_create_token tu_usuario`
-3. La terminal te devolverá una cadena larga de letras y números (ejemplo: 99b4d5...). Cópiala. 
-     `(c133cccc7e3e1578ec3ed0cedc88dc17381fa59f)`
-4. En Postman, vete a tu colección CMS Jr., haz clic en la pestaña Authorization.
-5. En el desplegable Type, selecciona Bearer Token (o Token si te aparece).
-6. En el campo Token, pega la cadena larga que copiaste de la terminal y guarda (Save). Esto hará que todas las 
-   peticiones dentro de esta colección se autentiquen solas.
+1. **Generar un token por terminal:**
+   - Abre tu terminal con el entorno virtual activo (`venv`) y el servidor de Django corriendo.
+   - Ejecuta el siguiente comando para asociar y generar un token a un usuario (por ejemplo, el superusuario `admin`):
+     ```bash
+     python manage.py drf_create_token admin
+     ```
+   - La terminal te devolverá una cadena larga de letras y números (ejemplo: `543b9e1319d058f75d66346628aaa0600dd7a7a0`). Cópiala.
+
+2. **Crear la petición en Postman:**
+   - Crea una nueva petición (`New Request`) en tu colección, pon el método en **`GET`** y la URL: `{{base_url}}/api/projects/`.
+
+3. **Configurar la pestaña "Authorization" en "No Auth" (¡Importante!):**
+   - **¿Por qué elegimos "No Auth"?** Por defecto, si seleccionas opciones automáticas como *Basic Auth* o *Bearer Token*, 
+       Postman añade cabeceras automáticas o prefijos incorrectos (como la palabra `Bearer`). El sistema de autenticación 
+       nativo de Django (`TokenAuthentication`) es estricto y **exige obligatoriamente el prefijo `Token`**. 
+   - Al configurar la pestaña en **`No Auth`**, evitamos que Postman modifique o inyecte credenciales erróneas, dándonos 
+   el control total para mandar la cabecera de forma manual y exacta.
+
+4. **Añadir la cabecera (Header) de forma manual:**
+   - Ve a la pestaña **Headers** de tu petición (al lado de *Params* y *Authorization*).
+   - Añade una nueva fila con estos datos exactos:
+     - **KEY:** `Authorization`
+     - **VALUE:** `Token 543b9e1319d058f75d66346628aaa0600dd7a7a0` *(Escribe la palabra **Token**, un espacio obligatorio, 
+         y pega tu clave larga generada en la terminal)*.
+   - Haz clic en **Send**. El servidor validará la credencial al instante y te devolverá un **`200 OK`**.
 
 # Paso 2.3: Crear las peticiones del Camino Feliz (CRUD)
 Vamos a crear dentro de tu colección las peticiones básicas para projects y assets.
@@ -187,7 +197,7 @@ Vamos a crear dentro de tu colección las peticiones básicas para projects y as
 1. Clica en los tres puntitos (`...`) al lado de tu colección **CMS Jr.** y selecciona **Add request**. Llámala `List Projects`.
    - **Método:** `GET`
    - **URL:** `{{base_url}}/api/projects/`
-   - **Cabeceras (*Headers*):** `Authorization: Token <tu_token>` (o configurado a nivel de colección).
+   - **Cabeceras (*Headers*):** `Authorization: Token <tu_token>`
    - *Resultado esperado:* Devuelve la lista paginada de proyectos (`count`, `next`, `previous`, `results`).
 
 2. Crea otra petición llamada `Create Project`:
@@ -206,7 +216,6 @@ Vamos a crear dentro de tu colección las peticiones básicas para projects y as
    - `Update Project` (`PATCH` a `{{base_url}}/api/projects/{id}/` enviando el nuevo nombre)
    - `Delete Project` (`DELETE` a `{{base_url}}/api/projects/{id}/`)
 
-- 
 **B. Para `Assets`:**
 Crea peticiones equivalentes para la ruta de assets (`{{base_url}}/api/assets/`) para cubrir su ciclo completo:
 1. `List Assets` (`GET`)
@@ -217,25 +226,30 @@ Crea peticiones equivalentes para la ruta de assets (`{{base_url}}/api/assets/`)
 
 # Paso 2.4: Probar los "Caminos Infelices" (Control de Errores y Seguridad)
 
-Un desarrollo profesional no solo comprueba que el sistema funciona cuando todo va bien, sino que valida que **falla exactamente como marcan las reglas de negocio y seguridad**. Añadimos las siguientes peticiones de control de errores a la colección:
+Un desarrollo profesional no solo comprueba que el sistema funciona cuando todo va bien, sino que valida que **falla 
+exactamente como marcan las reglas de negocio y seguridad**. Añadimos las siguientes peticiones de control de errores a la colección:
 
 1. **Prueba de la Regla 1 (Error 400 - Validación de Negocio):**
    - **Nombre:** `Fail - Duplicate MODEL_3D`
    - **Método / URL:** `POST` a `{{base_url}}/api/assets/`
    - **Acción:** Intentar crear un segundo asset de tipo `MODEL_3D` en un proyecto que ya contiene uno.
-   - *Resultado esperado:* La API interrumpe la petición desde el Serializer y devuelve un código **`400 Bad Request`** informando de que el proyecto ya dispone de un modelo 3D.
+   - *Resultado esperado:* La API interrumpe la petición desde el Serializer y devuelve un código **`400 Bad Request`** 
+      informando de que el proyecto ya dispone de un modelo 3D.
 
 2. **Prueba de la Regla 3 (Error 403 - Anti-Cheat / Permisos):**
    - **Nombre:** `Fail - Unauthorized Asset Creation`
    - **Método / URL:** `POST` a `{{base_url}}/api/assets/`
-   - **Acción:** Autenticarse con el token de un usuario comercial (`comercial1`) e intentar crear o modificar un asset en un proyecto propiedad de otro usuario (`commercial2`).
-   - *Resultado esperado:* La clase de permisos `IsProjectOwnerOrAdmin` intercepta la acción y bloquea el acceso devolviendo un código **`403 Forbidden`** (o `404 Not Found` según la consulta del queryset).
+   - **Acción:** Autenticarse con el token de un usuario comercial (`comercial1`) e intentar crear o modificar un asset 
+       en un proyecto propiedad de otro usuario.
+   - *Resultado esperado:* La clase de permisos `IsProjectOwnerOrAdmin` intercepta la acción y bloquea el acceso 
+      devolviendo un código **`403 Forbidden`** (o `404 Not Found` según la consulta del queryset).
 
 3. **Prueba sin Autenticación (Error 401 - Seguridad Global):**
    - **Nombre:** `Fail - No Token`
    - **Método / URL:** `GET` a `{{base_url}}/api/projects/`
    - **Acción:** Eliminar o no proporcionar la cabecera `Authorization` en la petición.
-   - *Resultado esperado:* El sistema rechaza la conexión por defecto devolviendo un código **`401 Unauthorized`** (*"Authentication credentials were not provided"*).
+   - *Resultado esperado:* El sistema rechaza la conexión por defecto devolviendo un código **`401 Unauthorized`** 
+      (*"Authentication credentials were not provided"*).
 
 ---
 
