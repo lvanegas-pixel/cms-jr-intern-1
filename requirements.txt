@@ -1,4 +1,4 @@
-# Genecal Jr. — base dependencies
+# Genesal Jr. — base dependencies
 # Pinned so every intern's environment is identical.
 # Rule: add ONLY what you install directly. Do NOT run `pip freeze > requirements.txt`
 # blindly — it dumps every sub-dependency and makes reviews unreadable.
