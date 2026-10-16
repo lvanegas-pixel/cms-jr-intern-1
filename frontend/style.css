@@ -37,6 +37,10 @@ header h1 {
     font-size: 1.8rem;
 }
 
+header h1::before {
+    content: "🚀 ";
+}
+
 header p {
     color: var(--text-muted);
     margin-top: 0.5rem;
@@ -48,7 +52,6 @@ header p {
     padding: 0 1rem;
 }
 
-/* Dividimos en dos columnas en pantallas grandes */
 .grid-layout {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -56,7 +59,6 @@ header p {
     align-items: start;
 }
 
-/* Estilo de Tarjeta blanca */
 .card {
     background-color: var(--card-bg);
     border-radius: 8px;
@@ -71,7 +73,6 @@ header p {
     padding-bottom: 0.5rem;
 }
 
-/* Formulario */
 .input-group {
     margin-bottom: 1rem;
 }
@@ -115,7 +116,6 @@ input[type="text"]:focus {
     background-color: var(--primary-hover);
 }
 
-/* Lista de proyectos */
 .project-list {
     list-style: none;
 }
@@ -128,6 +128,7 @@ input[type="text"]:focus {
     background-color: #FAFAFA;
     transition: transform 0.1s, box-shadow 0.1s;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .project-list li:hover {
@@ -144,7 +145,10 @@ input[type="text"]:focus {
     cursor: default !important;
 }
 
-/* Errores (Rojo) */
+.loading::before {
+    content: "⏳ ";
+}
+
 .error-banner {
     background-color: var(--danger-bg);
     color: var(--danger);
@@ -159,7 +163,6 @@ input[type="text"]:focus {
     display: none !important;
 }
 
-/* Botón de eliminar en la lista */
 .btn-delete {
     background-color: var(--danger);
     color: white;
@@ -172,11 +175,14 @@ input[type="text"]:focus {
     transition: background-color 0.2s;
 }
 
+.btn-delete::before {
+    content: "🗑️ ";
+}
+
 .btn-delete:hover {
     background-color: #B91C1C;
 }
 
-/* Limpiar el float del botón para que no deforme la tarjeta */
-.project-list li {
-    overflow: hidden;
+.asset-item::before {
+    content: "📦 ";
 }

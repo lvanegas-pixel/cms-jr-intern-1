@@ -1,6 +1,5 @@
-// 1. Configuración de la API
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
-const MY_TOKEN = 'c133cccc7e3e1578ec3ed0cedc88dc17381fa59f'; // <-- TU TOKEN
+const MY_TOKEN = 'c133cccc7e3e1578ec3ed0cedc88dc17381fa59f';
 
 const projectsList = document.getElementById('projects-list');
 const form = document.getElementById('create-project-form');
@@ -16,7 +15,6 @@ function hideError() {
     errorBox.textContent = '';
 }
 
-// --- 1. CARGAR PROYECTOS (GET) ---
 async function loadProjects() {
     try {
         const response = await fetch(`${API_BASE_URL}/projects/`, {
@@ -29,28 +27,21 @@ async function loadProjects() {
         data.results.forEach(project => {
             const li = document.createElement('li');
 
-            // Inyectamos el texto del proyecto
             const textSpan = document.createElement('span');
             textSpan.innerHTML = `<strong>${project.name}</strong> <br> <small>ID: ${project.id} | Propietario: ${project.owner}</small>`;
             li.appendChild(textSpan);
 
-            // EXTRA: Creamos el botón de borrar
             const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = '🗑️ Borrar';
+            deleteBtn.textContent = 'Borrar';
             deleteBtn.className = 'btn-delete';
 
-            // Evento para borrar (DELETE)
             deleteBtn.addEventListener('click', async (event) => {
-                // IMPORTANTÍSIMO: Esto evita que el clic en el botón active también la carga de assets
                 event.stopPropagation();
                 await deleteProject(project.id);
             });
 
             li.appendChild(deleteBtn);
-
-            // Evento para cargar assets al pinchar el LI
             li.addEventListener('click', () => loadAssets(project.id, li));
-
             projectsList.appendChild(li);
         });
     } catch (error) {
@@ -58,26 +49,20 @@ async function loadProjects() {
     }
 }
 
-// --- NUEVA FUNCIÓN: BORRAR PROYECTO (DELETE) ---
 async function deleteProject(projectId) {
-    // Pedimos confirmación para no borrar sin querer
     if (!confirm("¿Estás seguro de que quieres eliminar este proyecto?")) return;
-
     hideError();
 
     try {
         const response = await fetch(`${API_BASE_URL}/projects/${projectId}/`, {
             method: 'DELETE',
-            headers: {
-                'Authorization': `Token ${MY_TOKEN}`
-            }
+            headers: { 'Authorization': `Token ${MY_TOKEN}` }
         });
 
         if (response.ok) {
-            // Si el backend devuelve un 204 No Content, recargamos la lista
             loadProjects();
         } else if (response.status === 403) {
-            showError("Error 403: No tienes permiso para borrar este proyecto (no eres el dueño ni admin).");
+            showError("Error 403: No tienes permiso para borrar este proyecto.");
         } else {
             showError("Error al intentar borrar el proyecto.");
         }
@@ -86,7 +71,6 @@ async function deleteProject(projectId) {
     }
 }
 
-// --- 2. CREAR PROYECTO (POST) ---
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
     hideError();
@@ -120,7 +104,6 @@ form.addEventListener('submit', async (event) => {
     }
 });
 
-// --- 3. CARGAR ASSETS (GET con filtro) ---
 async function loadAssets(projectId, liElement) {
     if (liElement.querySelector('.assets-box')) return;
 
@@ -142,7 +125,10 @@ async function loadAssets(projectId, liElement) {
             assetsDiv.innerHTML = '<span style="color: var(--text-muted);">No hay assets en este proyecto.</span>';
         } else {
             data.results.forEach(asset => {
-                assetsDiv.innerHTML += `<div>📦 ${asset.name} (${asset.asset_type})</div>`;
+                const assetDiv = document.createElement('div');
+                assetDiv.className = 'asset-item';
+                assetDiv.textContent = `${asset.name} (${asset.asset_type})`;
+                assetsDiv.appendChild(assetDiv);
             });
         }
 
@@ -153,5 +139,4 @@ async function loadAssets(projectId, liElement) {
     }
 }
 
-// Inicializamos la vista
 loadProjects();
