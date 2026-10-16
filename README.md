@@ -167,9 +167,9 @@ mediante cabeceras HTTP. Sigue estos pasos exactos para configurarlo:
 1. **Generar un token por terminal:**
    - Abre tu terminal con el entorno virtual activo (`venv`) y el servidor de Django corriendo.
    - Ejecuta el siguiente comando para asociar y generar un token a un usuario (por ejemplo, el superusuario `admin`):
-     ```bash
+
      python manage.py drf_create_token admin
-     ```
+
    - La terminal te devolverá una cadena larga de letras y números (ejemplo: `543b9e1319d058f75d66346628aaa0600dd7a7a0`). Cópiala.
 
 2. **Crear la petición en Postman:**

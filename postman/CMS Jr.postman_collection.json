@@ -63,15 +63,12 @@
 			"response": []
 		},
 		{
-			"name": "Projects Copy",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "Create Project",
 			"request": {
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
@@ -96,7 +93,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Proyecto Assets\"\n}",
+					"raw": "{\n    \"name\": \"Proyecto POST\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -118,7 +115,59 @@
 			"response": []
 		},
 		{
-			"name": "Projects Copy 2",
+			"name": "Create Project Copy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Proyecto prueba\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/projects/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"projects",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Project Detail",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -159,13 +208,120 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/api/projects/",
+					"raw": "{{base_url}}/api/projects/7/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"projects",
+						"7",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Project",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Nombre Modificado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/projects/7/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"projects",
+						"7",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Project",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Nombre Modificado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/projects/7/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"projects",
+						"7",
 						""
 					]
 				}
@@ -174,6 +330,327 @@
 		},
 		{
 			"name": "Assets",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Secundario\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Asset",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Secundario\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Asset Copy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 8,\n    \"name\": \"Modelo 3D Secundario\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Asset Detail",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Secundario\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/4/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						"4",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Asset",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Principal\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/4/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						"4",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Asset",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Principal\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/4/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						"4",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail - Unauthorized",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -203,7 +680,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Secundario\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"raw": "{\n    \"project\": 4,\n    \"name\": \"Modelo 3D Tercero\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -211,14 +688,121 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/api/assets/3/",
+					"raw": "{{base_url}}/api/assets/",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
 						"assets",
-						"3",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail - Duplicate MODEL_3D",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Tercero\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail - Duplicate MODEL_3D Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 543b9e1319d058f75d66346628aaa0600dd7a7a0",
+						"description": "admin",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token c133cccc7e3e1578ec3ed0cedc88dc17381fa59f",
+						"description": "comercial1",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token 598807eff9b8a1e94fc324e506c25c2212134d5f",
+						"description": "comercial2",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"project\": 6,\n    \"name\": \"Modelo 3D Tercero\",\n    \"asset_type\": \"MODEL_3D\",\n    \"is_public\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/assets/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"assets",
 						""
 					]
 				}
