@@ -38,12 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -123,3 +127,25 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ==========================================
+# Django REST Framework Configuration
+# ==========================================
+REST_FRAMEWORK = {
+    # 1. Quién puede entrar y cómo se identifica
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',  # Útil para seguir usando el navegador/admin
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Por defecto, nadie entra sin autenticarse
+    ],
+
+    # 2. Paginación global de la API
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # Máximo 10 elementos por página
+}
+
+# --- CONFIGURACIÓN CORS ---
+# Permite que cualquier origen (frontend) se conecte a nuestra API
+CORS_ALLOW_ALL_ORIGINS = True

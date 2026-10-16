@@ -23,7 +23,8 @@ class Asset(models.Model): #The Content Element
   ASSET_TYPES = [
       ('MODEL_3D', 'Model 3D'),
       ('IMAGE', 'Image'),
-      ('VIDEO', 'Video'),
+      ('VIDEO', 'Video')
+
   ]
 
   project = models.ForeignKey(

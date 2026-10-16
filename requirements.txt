@@ -6,6 +6,7 @@
 Django==5.1.4
 djangorestframework==3.15.2
 python-dotenv==1.0.1
+django-filter>=23.0
 
 # --- dev / testing ---
 pytest==8.3.4

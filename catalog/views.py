@@ -1,4 +1,5 @@
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, filters
 from .models import Asset, Project
 from .permissions import IsProjectOwnerOrAdmin
 from .serializers import AssetSerializer, ProjectSerializer
@@ -13,6 +14,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
   serializer_class = ProjectSerializer
   permission_classes = [IsProjectOwnerOrAdmin]
+
+  # Añadimos los backends de filtrado y búsqueda aquí
+  filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+  filterset_fields = ['owner']  # Permite filtrar por dueño: ?owner=<id>
+  search_fields = ['name']  # Permite buscar por texto: ?search=<texto>
 
   def get_queryset(self):
     user = self.request.user
@@ -37,6 +43,15 @@ class AssetViewSet(viewsets.ModelViewSet):
 
   serializer_class = AssetSerializer
   permission_classes = [IsProjectOwnerOrAdmin]
+
+  # Añadimos los backends de filtrado y búsqueda también aquí
+  filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+  filterset_fields = [
+    'project',
+    'asset_type',
+    'is_public',
+  ]  # Filtrar por tipo, proyecto o si es público
+  search_fields = ['name']  # Permite buscar assets por nombre: ?search=<texto>
 
   def get_queryset(self):
     user = self.request.user
