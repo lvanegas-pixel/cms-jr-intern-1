@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'catalog',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_filters'
+    'django_filters',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -143,3 +145,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,  # Máximo 10 elementos por página
 }
+
+# --- CONFIGURACIÓN CORS ---
+# Permite que cualquier origen (frontend) se conecte a nuestra API
+CORS_ALLOW_ALL_ORIGINS = True

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Jr | Workspace</title>
+    <!-- Importamos una fuente moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🚀 CMS Jr Workspace</h1>
+        <p>Gestiona tus proyectos y modelos 3D</p>
+    </header>
+
+    <main class="container">
+        <!-- Banner de errores (oculto por defecto) -->
+        <div id="error-box" class="hidden error-banner"></div>
+
+        <div class="grid-layout">
+            <!-- Columna Izquierda: Formulario -->
+            <section class="card">
+                <h2>Nuevo Proyecto</h2>
+                <form id="create-project-form">
+                    <div class="input-group">
+                        <label for="project-name">Nombre del Proyecto</label>
+                        <input type="text" id="project-name" placeholder="Ej. Lanzamiento Alfa" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Crear Proyecto</button>
+                </form>
+            </section>
+
+            <!-- Columna Derecha: Lista -->
+            <section class="card">
+                <h2>Mis Proyectos</h2>
+                <ul id="projects-list" class="project-list">
+                    <li class="loading">⏳ Cargando datos desde la API...</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
