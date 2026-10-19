@@ -88,7 +88,7 @@ class CatalogApiTests(APITestCase):
         'is_public': False,
     }
     response_second = self.client.post(self.assets_url, data_second)
-    self.assertEqual(response_second.status_code, status.HTTP_201_CREATED)  # Esperábamos 400, ponemos 201 a propósito
+    self.assertEqual(response_second.status_code, status.HTTP_400_BAD_REQUEST)  # Arreglado
     # Verify that the serializer intercepts the business rule and rejects the request with
     # a 400 Bad Request error.
 
