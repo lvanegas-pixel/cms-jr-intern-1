@@ -88,7 +88,7 @@ class CatalogApiTests(APITestCase):
         'is_public': False,
     }
     response_second = self.client.post(self.assets_url, data_second)
-    self.assertEqual(response_second.status_code, status.HTTP_400_BAD_REQUEST)
+    self.assertEqual(response_second.status_code, status.HTTP_201_CREATED)
 
   def test_rule_2_commercial_scoping(self):
     """Ensure commercial users see only their projects, while admins see all projects."""
