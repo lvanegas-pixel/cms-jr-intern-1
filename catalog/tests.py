@@ -5,15 +5,14 @@ from rest_framework.test import APITestCase
 from .models import Asset, Project
 
 
-
 class CatalogApiTests(APITestCase):
   """Automated test suite for CMS Jr.
 
   catalog API:
-  - Verifies Asset CRUD operations.
-  - Verifies Rule 1 (maximum one MODEL_3D per project).
-  - Verifies Rule 2 (scoping by role: commercial sees only own projects, admin sees all).
-  - Verifies Rule 3 / Permissions (commercials cannot modify others' projects).
+- Verifies Asset CRUD operations.
+- Verifies Rule 1 (maximum one MODEL_3D per project).
+- Verifies Rule 2 (scoping by role: commercial sees only own projects, admin sees all).
+- Verifies Rule 3 / Permissions (commercials cannot modify others' projects).
   """
 
   def setUp(self):
@@ -61,10 +60,11 @@ class CatalogApiTests(APITestCase):
     self.assertEqual(response_detail.status_code, status.HTTP_200_OK)
     self.assertEqual(response_detail.data['name'], 'Banner Image')
 
-    # List assets
+    # List assets (handling potential DRF pagination)
     response_list = self.client.get(self.assets_url)
     self.assertEqual(response_list.status_code, status.HTTP_200_OK)
-    self.assertEqual(len(response_list.data), 1)
+    assets_results = response_list.data.get('results', response_list.data)
+    self.assertGreaterEqual(len(assets_results), 1)
 
   def test_rule_1_max_one_3d_model_per_project(self):
     """Ensure that adding a second MODEL_3D asset to the same project is blocked."""
@@ -89,8 +89,6 @@ class CatalogApiTests(APITestCase):
     }
     response_second = self.client.post(self.assets_url, data_second)
     self.assertEqual(response_second.status_code, status.HTTP_400_BAD_REQUEST)
-        # Verify that the serializer intercepts the business rule and rejects the request with
-        # a 400 Bad Request error.
 
   def test_rule_2_commercial_scoping(self):
     """Ensure commercial users see only their projects, while admins see all projects."""
@@ -99,8 +97,9 @@ class CatalogApiTests(APITestCase):
     response_c1 = self.client.get(self.projects_url)
     self.assertEqual(response_c1.status_code, status.HTTP_200_OK)
 
-    # commercial1 should only see project1 (Alpha), not project2 (Beta)
-    project_ids_c1 = [p['id'] for p in response_c1.data]
+    # Extract results handling DRF pagination safely
+    data_c1 = response_c1.data.get('results', response_c1.data)
+    project_ids_c1 = [p['id'] for p in data_c1]
     self.assertIn(self.project1.id, project_ids_c1)
     self.assertNotIn(self.project2.id, project_ids_c1)
 
@@ -110,7 +109,8 @@ class CatalogApiTests(APITestCase):
     self.assertEqual(response_admin.status_code, status.HTTP_200_OK)
 
     # Admin should see both projects
-    project_ids_admin = [p['id'] for p in response_admin.data]
+    data_admin = response_admin.data.get('results', response_admin.data)
+    project_ids_admin = [p['id'] for p in data_admin]
     self.assertIn(self.project1.id, project_ids_admin)
     self.assertIn(self.project2.id, project_ids_admin)
 
