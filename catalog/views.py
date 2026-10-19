@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, filters
+from rest_framework import filters, viewsets
+
 from .models import Asset, Project
 from .permissions import IsProjectOwnerOrAdmin
 from .serializers import AssetSerializer, ProjectSerializer

@@ -303,3 +303,4 @@ Esta dependencia nos permite integrar de forma nativa la filtración avanzada de
 Django REST Framework. Gracias a ella, los clientes pueden filtrar los listados de la API por campos específicos 
 (como el `owner` de un proyecto o el `asset_type` de un archivo) y realizar búsquedas personalizadas mediante 
 parámetros en la URL sin necesidad de escribir lógica de filtrado manual en Python.
+
