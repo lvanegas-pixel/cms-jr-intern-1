@@ -355,3 +355,4 @@ En esta primera fase hemos configurado nuestro primer pipeline de Integración C
 - **Pasos iniciales:**
   1. Clonación del repositorio mediante la acción oficial `actions/checkout@v4`.
   2. Configuración del entorno de Python con la versión exacta de desarrollo (`python-version: '3.12'`) usando `actions/setup-python@v5`.
+

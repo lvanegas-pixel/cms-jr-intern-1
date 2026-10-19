@@ -18,7 +18,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Print welcome message and Python version
+      - name: Install dependencies
         run: |
-          echo "¡Hola desde el robot de CI de Invelon!"
-          python --version
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+
+      - name: Run Django Tests
+        run: |
+            python manage.py test
