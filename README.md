@@ -303,3 +303,56 @@ Esta dependencia nos permite integrar de forma nativa la filtración avanzada de
 Django REST Framework. Gracias a ella, los clientes pueden filtrar los listados de la API por campos específicos 
 (como el `owner` de un proyecto o el `asset_type` de un archivo) y realizar búsquedas personalizadas mediante 
 parámetros en la URL sin necesidad de escribir lógica de filtrado manual en Python.
+
+=============================================COMENTARIO LUIS===========================================================
+
+Reto 2 aprobado y mergeado. Antes del siguiente, cierra una cosa de seguridad pendiente.
+
+Abre tu settings.py y busca la SECRET_KEY. Está escrita directamente en el código, y ese archivo va a GitHub. ¿Qué problema ves? ¿Qué pasa si alguien ve esa clave?
+
+Ya tienes instalado python-dotenv pero no lo usas. Investiga cómo mover la SECRET_KEY (y cualquier secreto) a un .env que NO se suba al repo, y leerlo desde settings. Docs: Django settings y python-dotenv.
+
+Mismo principio que el token del .js: los secretos no van en el código. Hazlo en rama + PR.
+
+Recursos:
+
+https://docs.djangoproject.com/en/5.1/topics/settings/
+https://pypi.org/project/python-dotenv/
+
+================================== SOLUCION
+
+🛠️ 2. Guía paso a paso para mover los secretos al .env
+Dado que ya tienes instalado python-dotenv, vamos a aplicarlo en tu backend siguiendo estos cuatro pasos:
+
+Paso 1: Crear el archivo .env en la raíz del backend
+
+Crea un archivo llamado exactamente .env en la carpeta raíz de tu proyecto Django (justo al mismo nivel que el 
+archivo manage.py). Añade dentro tu clave secreta real:
+
+SECRET_KEY=django-insecure-mi-super-clave-secreta-cambiada-para-produccion-12345
+DEBUG=True
+
+Paso 2: Asegurar que el .env está en el .gitignore
+
+Abre tu archivo .gitignore (también en la raíz) y asegúrate de que incluye la línea .env para evitar que Git lo suba 
+por error a GitHub.
+
+Paso 3: Modificar settings.py para leer el .env
+
+Abre tu archivo config/settings.py (o el nombre de tu carpeta de configuración), importa python-dotenv y sustituye la 
+lectura estática de la clave por os.getenv.
+
+
+## 🤖 Reto 3: Integración Continua (CI/CD con GitHub Actions)
+
+### 📋 Fase 1 — Primer workflow básico (`ci.yml`)
+En esta primera fase hemos configurado nuestro primer pipeline de Integración Continua para automatizar las comprobaciones del repositorio mediante GitHub Actions.
+
+#### Estructura y configuración:
+- **Ruta del fichero:** `.github/workflows/ci.yml`
+- **Disparadores (*Triggers*):** Configurado para ejecutarse automáticamente ante cualquier `push` o apertura/actualización de un `pull_request` en cualquier rama.
+- **Entorno (*Runner*):** Se ejecuta sobre una máquina virtual limpia con Ubuntu (`ubuntu-latest`).
+- **Pasos iniciales:**
+  1. Clonación del repositorio mediante la acción oficial `actions/checkout@v4`.
+  2. Configuración del entorno de Python con la versión exacta de desarrollo (`python-version: '3.12'`) usando `actions/setup-python@v5`.
+
