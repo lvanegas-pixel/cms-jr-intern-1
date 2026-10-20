@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from .models import Asset, Project
 
 from .models import Project
 
@@ -61,7 +62,7 @@ class CatalogApiTests(APITestCase):
     self.assertEqual(response_detail.status_code, status.HTTP_200_OK)
     self.assertEqual(response_detail.data['name'], 'Banner Image')
 
-    # List assets (handling potential DRF pagination)
+    # List assets
     response_list = self.client.get(self.assets_url)
     self.assertEqual(response_list.status_code, status.HTTP_200_OK)
     assets_results = response_list.data.get('results', response_list.data)
