@@ -23,6 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run Ruff Linter
+        run: |
+          ruff check .
+
       - name: Run Django Tests
         run: |
           python manage.py test
